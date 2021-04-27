@@ -1,0 +1,1 @@
+# ad-stock-management
