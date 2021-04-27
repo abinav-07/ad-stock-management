@@ -10,13 +10,18 @@ namespace GroupCourseWork.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Customer Name Required")]
+        [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
         [Required]
+        [Display(Name = "Customer Phone No.")]
         public int CustomerPhone { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Email Address Required")]
+        [Display(Name = "Email Address")]
+        [DataType(DataType.EmailAddress)]
         public string CustomerEmail { get; set; }
         [Required]
+        [Display(Name = "Customer Address")]
         public string CustomerAddress { get; set; }
         [Required]
         public string MemberType { get; set; }
