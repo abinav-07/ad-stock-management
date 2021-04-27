@@ -18,6 +18,8 @@ namespace GroupCourseWork.Models
         [Required]
         public string UserName { get; set; }
         [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Enter Password")]
         [MinLength(6, ErrorMessage = "Password should atleast be 6 character.")]
         public string Password { get; set; }
 
