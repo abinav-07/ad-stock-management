@@ -16,6 +16,7 @@ namespace GroupCourseWork.Models
         [Required]
         public string ProductName { get; set; }
         public string Remarks { get; set; }
-        public virtual Category Cat { get; set; }             
+        public virtual Category Cat { get; set; }
+        
     }
 }
