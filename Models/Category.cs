@@ -13,6 +13,6 @@ namespace GroupCourseWork.Models
         [Required]
         public string Name { get; set; }
 
-        //check check
+        
     }
 }
