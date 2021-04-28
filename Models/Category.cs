@@ -10,7 +10,7 @@ namespace GroupCourseWork.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]        
+        [Required]
         public string Name { get; set; }
         
 

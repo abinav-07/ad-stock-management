@@ -16,8 +16,12 @@ namespace GroupCourseWork.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [Required]
+        [StringLength(10, MinimumLength = 5)]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
         [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Enter Password")]
         [MinLength(6, ErrorMessage = "Password should atleast be 6 character.")]
         public string Password { get; set; }
 
