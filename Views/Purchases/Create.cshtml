@@ -1,0 +1,87 @@
+﻿@model GroupCourseWork.Models.Purchase
+
+@{
+    ViewData["Title"] = "Create";
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<h1>Create</h1>
+
+<h4>Purchase</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form action="@Url.Action("Create", "PurchasesController")" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PurchaseDate" class="control-label"></label>
+                <input id="purchaseDate" asp-for="PurchaseDate" class="form-control" required />
+                <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorName" class="control-label"></label>
+                <input id="vendorName" asp-for="VendorName" class="form-control" />
+                <span asp-validation-for="VendorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BillNo" class="control-label"></label>
+                <input id="billNo" asp-for="BillNo" class="form-control" />
+                <span asp-validation-for="BillNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorAddress" class="control-label"></label>
+                <input id="vendorAddress" asp-for="VendorAddress" class="form-control" />
+                <span asp-validation-for="VendorAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input id="add-item-btn" type="button" value="Add Item" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <div id="productsDiv" class="row"></div>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>            
+        </form>
+        
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script>
+    $("#add-item-btn").on("click", () => {
+ 
+        createProductDiv();
+    });
+
+    var createProductDiv = () => {
+            
+        const ProductDiv = `<div class="form-group col-md-4">
+                                <label for="SelectedProducts">Product</label>
+                                <select name="SelectedProducts" class="form-control form-select form-select-lg" id="Select1" >
+                                @{
+                                    foreach(var item in ViewBag.ProductDetails)
+                                    {
+                                    <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                                </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="product-quantity">Quantity</label>
+                                    <input class="form-control" name="product-quantity"/>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="product-price">Price</label>
+                                    <input class="form-control" name="product-price"/>
+                                </div>
+                               `;
+            $("#productsDiv").append(ProductDiv);
+            
+        };
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
