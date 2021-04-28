@@ -62,10 +62,23 @@ namespace GroupCourseWork.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(product);
+                
                 await _context.SaveChangesAsync();
+                int lastProductId = _context.Product.Max(item => item.Id);
+                using (var command = _context.Database.GetDbConnection().CreateCommand())
+                {
+                    command.CommandText = "INSERT INTO ProductStock(ProductId,Quantity) VALUES (" + lastProductId+ ",0)";
+                    _context.Database.OpenConnection();
+                    command.ExecuteNonQuery();
+
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", product.CategoryId);
+
+            
+
+                ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", product.CategoryId);
             return View(product);
         }
 

@@ -22,12 +22,20 @@ namespace GroupCourseWork.Controllers
         {
             return View();
         }
-        public IActionResult StockListReport()
+        public IActionResult StockListReport([FromQuery] string SelectedProduct="")
         {
             List<ProductStockViewModel> lstData = new List<ProductStockViewModel>();
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "SELECT p.Id as ProductId,p.ProductName as ProductName,ps.Quantity from Product p inner join ProductStock ps on p.Id=ps.ProductId";
+                if (SelectedProduct=="")
+                {
+                    command.CommandText = "SELECT p.Id as ProductId,p.ProductName as ProductName,ps.Quantity from Product p inner join ProductStock ps on p.Id=ps.ProductId";
+                }
+                else
+                {
+                    command.CommandText = "SELECT p.Id as ProductId,p.ProductName as ProductName,ps.Quantity from Product p inner join ProductStock ps on p.Id=ps.ProductId WHERE p.Id="+SelectedProduct;
+                }
+                
                 _context.Database.OpenConnection();
                 using (var result = command.ExecuteReader())
                 {
@@ -37,9 +45,9 @@ namespace GroupCourseWork.Controllers
                     while (result.Read())
                     {
                         data = new ProductStockViewModel();
-                        data.ProductId = int.Parse(result.GetString(0));
+                        data.ProductId = result.GetInt32(0);
                         data.ProductName = result.GetString(1);
-                        data.Quantity = int.Parse(result.GetString(2));
+                        data.Quantity = result.GetInt32(2);
                         lstData.Add(data);
                     }
                 }

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GroupCourseWork.Data;
 using GroupCourseWork.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace GroupCourseWork.Controllers
 {
@@ -65,7 +67,7 @@ namespace GroupCourseWork.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Purchase purchase, PurchaseDetail purchaseDetail)
+        public async Task<IActionResult> Create([FromForm]Purchase purchase)
         {
             /*
             if (ModelState.IsValid)
@@ -76,7 +78,9 @@ namespace GroupCourseWork.Controllers
             }
             */
             System.Diagnostics.Debug.WriteLine(purchase.PurchaseDate);
-            return View(purchase);
+            
+            System.Diagnostics.Debug.WriteLine(json);
+            return View("Index");
         }
 
         // GET: Purchases/Edit/5
