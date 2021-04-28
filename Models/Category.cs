@@ -10,7 +10,8 @@ namespace GroupCourseWork.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Category Name is Required")]
+        [Display(Name = "Category Name")]
         public string Name { get; set; }
         
 

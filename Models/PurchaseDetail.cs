@@ -15,12 +15,20 @@ namespace GroupCourseWork.Models
         [ForeignKey("PurId")]
         public int PurchaseId { get; set; }
         [ForeignKey("ProId")]
+        [Display(Name = "Product")]
         public int ProductId { get; set; }
 
         [Required(ErrorMessage = "Quantity is Required")]
         [Display(Name = "Quantity")]
         public int Quantity { get; set; }
-
+        [Required(ErrorMessage = "Manufacture date is Required")]
+        [Display(Name = "Manufacture Date")]
+        public DateTime ManufactureDate { get; set; }
+        [Required(ErrorMessage = "Expiry date is Required")]
+        [Display(Name = "Expiry Date")]
+        public DateTime ExpiryDate { get; set; }
+        [Required(ErrorMessage = "Price is Required")]
+        [Display(Name = "Price")]
         public int Price { get; set; }
         public virtual Purchase PurId { get; set; }
         public virtual Product ProId { get; set; }

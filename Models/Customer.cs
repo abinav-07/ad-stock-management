@@ -13,17 +13,19 @@ namespace GroupCourseWork.Models
         [Required(ErrorMessage = "Customer Name Required")]
         [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Phone No. is Required")]
         [Display(Name = "Customer Phone No.")]
         public int CustomerPhone { get; set; }
         [Required(ErrorMessage = "Email Address Required")]
         [Display(Name = "Email Address")]
         [DataType(DataType.EmailAddress)]
         public string CustomerEmail { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Customer Address is Required")]
         [Display(Name = "Customer Address")]
         public string CustomerAddress { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Member Type is Required")]
+        [Display(Name = "Member Type")]
         public string MemberType { get; set; }
     }
 }
