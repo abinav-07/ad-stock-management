@@ -1,0 +1,57 @@
+﻿@model IEnumerable<GroupCourseWork.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .action-head {
+        text-align: center;
+    }
+
+    a {
+        color: white;
+    }
+</style>
+
+<h1>Index</h1>
+
+<p>
+    <button type="button" class="btn btn-primary"><a asp-action="Create">Create New</a></button>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th width="20%">
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th width="30%">
+                @Html.DisplayNameFor(model => model.Remarks)
+            </th>
+            <th  width="20%">
+                @Html.DisplayNameFor(model => model.Cat)
+            </th>
+            <th width="20%" class="action-head">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="table-primary">
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cat.Name)
+            </td>
+            <td>
+                <button class="btn btn-primary"><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></button>
+                <button type="button" class="btn btn-info"><a asp-action="Details" asp-route-id="@item.Id">Details</a></button>
+                <button type="button" class="btn btn-danger"><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

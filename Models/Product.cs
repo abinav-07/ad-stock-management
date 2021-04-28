@@ -11,11 +11,13 @@ namespace GroupCourseWork.Models
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("Cat")]
+        [ForeignKey("Cat")]        
         public int CategoryId { get; set; }
         [Required]
+        [Display(Name = "Product Name")]
         public string ProductName { get; set; }
         public string Remarks { get; set; }
+        [Display(Name = "Category")]
         public virtual Category Cat { get; set; }
         
     }

@@ -7,5 +7,6 @@ namespace GroupCourseWork.Models
 {
     public class PurchaseDetail
     {
+
     }
 }
