@@ -3,7 +3,15 @@
 @{
     ViewData["Title"] = "Sales";
 }
+<style>
+    .action-head {
+        text-align: center;
+    }
 
+    a {
+        color: white;
+    }
+</style>
 <h1>Sales</h1>
 
 <p>
@@ -34,7 +42,7 @@
                 @Html.DisplayFor(modelItem => item.BillNo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Cus.CustomerAddress)
+                @Html.DisplayFor(modelItem => item.Cus.CustomerName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
