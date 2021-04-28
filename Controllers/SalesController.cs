@@ -48,7 +48,7 @@ namespace GroupCourseWork.Controllers
         // GET: Sales/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerAddress");
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerName");
             return View();
         }
 

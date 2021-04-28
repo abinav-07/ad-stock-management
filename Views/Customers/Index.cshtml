@@ -3,11 +3,19 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    .action-head {
+        text-align: center;
+    }
 
+    a {
+        color: white;
+    }
+</style>
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button type="button" class="btn btn-primary"><a asp-action="Create">Create New</a></button>
 </p>
 <table class="table">
     <thead>

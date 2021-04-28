@@ -20,7 +20,6 @@ namespace GroupCourseWork.Models
         [Display(Name = "Email Address")]
         [DataType(DataType.EmailAddress)]
         public string CustomerEmail { get; set; }
-
         [Required(ErrorMessage = "Customer Address is Required")]
         [Display(Name = "Customer Address")]
         public string CustomerAddress { get; set; }
