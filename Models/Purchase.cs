@@ -19,6 +19,12 @@ namespace GroupCourseWork.Models
         [Required(ErrorMessage = "Bill No. is Required")]
         [Display(Name = "Bill Number")]
         public int BillNo { get; set; }
+        [Required(ErrorMessage = "Manufacture date is Required")]
+        [Display(Name = "Manufacture Date")]
+        public DateTime ManufactureDate { get; set; }
+        [Required(ErrorMessage = "Expiry date is Required")]
+        [Display(Name = "Expiry Date")]
+        public DateTime ExpiryDate { get; set; }
         [Required(ErrorMessage = "Vendor Address is Required")]
         [Display(Name = "Vendor Address")]
         public String VendorAddress { get; set; }

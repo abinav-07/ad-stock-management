@@ -54,7 +54,7 @@ namespace GroupCourseWork.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PurchaseDate,VendorName,BillNo,VendorAddress")] Purchase purchase)
+        public async Task<IActionResult> Create([Bind("Id,PurchaseDate,VendorName,BillNo,ManufactureDate,ExpiryDate,VendorAddress")] Purchase purchase)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace GroupCourseWork.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PurchaseDate,VendorName,BillNo,VendorAddress")] Purchase purchase)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PurchaseDate,VendorName,BillNo,ManufactureDate,ExpiryDate,VendorAddress")] Purchase purchase)
         {
             if (id != purchase.Id)
             {

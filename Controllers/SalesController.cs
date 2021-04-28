@@ -65,7 +65,7 @@ namespace GroupCourseWork.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerAddress", sales.CustomerId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerName", sales.CustomerId);
             return View(sales);
         }
 
@@ -82,7 +82,7 @@ namespace GroupCourseWork.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerAddress", sales.CustomerId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerName", sales.CustomerId);
             return View(sales);
         }
 
@@ -118,7 +118,7 @@ namespace GroupCourseWork.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerAddress", sales.CustomerId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerName", sales.CustomerId);
             return View(sales);
         }
 
