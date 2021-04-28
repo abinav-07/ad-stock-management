@@ -19,6 +19,7 @@ namespace GroupCourseWork.Models
         [Required(ErrorMessage = "Bill No. is Required")]
         [Display(Name = "Bill Number")]
         public int BillNo { get; set; }
+        
         [Required(ErrorMessage = "Vendor Address is Required")]
         [Display(Name = "Vendor Address")]
         public String VendorAddress { get; set; }

@@ -14,6 +14,7 @@ namespace GroupCourseWork.Data
         {
         }
         public DbSet<GroupCourseWork.Models.Category> Category { get; set; }
+        public DbSet<GroupCourseWork.Models.Customer> Customer { get; set; }
         public DbSet<GroupCourseWork.Models.Product> Product{ get; set; }
         public DbSet<GroupCourseWork.Models.ProductStock> ProductStock { get; set; }
         public DbSet<GroupCourseWork.Models.Purchase> Purchase { get; set; }
