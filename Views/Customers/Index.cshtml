@@ -15,12 +15,12 @@
 <h1>Customers</h1>
 
 <p>
-    <button type="button" class="btn btn-primary"><a asp-action="Create">Create New</a></button>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-bordered">
+    <thead class="thead-dark">
         <tr>
-            <th>
+            <th scope="row">
                 @Html.DisplayNameFor(model => model.CustomerName)
             </th>
             <th>
@@ -47,7 +47,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerPhone)
             </td>
-            <td>
+            <td class=" text text-black-50 ">
                 @Html.DisplayFor(modelItem => item.CustomerEmail)
             </td>
             <td>
@@ -57,9 +57,9 @@
                 @Html.DisplayFor(modelItem => item.MemberType)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class=" btn btn-primary">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

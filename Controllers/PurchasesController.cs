@@ -74,8 +74,16 @@ namespace GroupCourseWork.Controllers
         public IActionResult Create()
         {
             ViewBag.ProductDetails = GetProductList();
-            int lastBillId = _context.Purchase.Max(item => item.BillNo);
-            ViewBag.LatestBillId = lastBillId + 1;
+
+            int lastBillId = 1;
+            if (!_context.Purchase.Count().Equals(0))
+            {
+                 lastBillId = _context.Purchase.Max(item => item.BillNo) +1;
+            }
+            else { 
+            }
+            
+            ViewBag.LatestBillId = lastBillId ;
             return View();
 
         }
@@ -99,8 +107,16 @@ namespace GroupCourseWork.Controllers
             
             if (ModelState.IsValid)
             {
-                int lastBillId = _context.Purchase.Max(item => item.BillNo);
-                purchase.BillNo = lastBillId + 1;
+                int lastBillId = 1;
+                if (!_context.Purchase.Count().Equals(0))
+                {
+                    purchase.BillNo = _context.Purchase.Max(item => item.BillNo) + 1;
+                }
+                else
+                {
+                    purchase.BillNo = lastBillId;
+                }
+                
                 _context.Add(purchase);
                 await _context.SaveChangesAsync();
                 foreach(PurchaseDetail element in PurchaseDetailList)

@@ -89,7 +89,7 @@ namespace GroupCourseWork.Controllers
             List<InactiveProductViewModel> lstData = new List<InactiveProductViewModel>();
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "SELECT FORMAT(SalesDate, 'MM-dd') AS Date,ProductName ,Quantity from Product p join SalesDetail sd on p.id = sd.ProductId join Sales s on sd.SalesId = s.Id  where DATEDIFF(day,SalesDate,GETDATE()) > 31 Order by day(SalesDate);";
+                command.CommandText = "SELECT FORMAT(s.SalesDate, 'MM-dd') AS Date,p.ProductName from Product p join SalesDetail sd on p.id = sd.ProductId join Sales s on sd.SalesId = s.Id  where DATEDIFF(day,GETDATE(),SalesDate) > 31 Order by day(SalesDate)";
 
 
                 _context.Database.OpenConnection();
@@ -162,6 +162,43 @@ namespace GroupCourseWork.Controllers
                 Value = s.Id.ToString(),
                 Text = s.CustomerName
             }).ToList();
+        }
+        public IActionResult ProductOutOfList([FromQuery] string SortBy = "")
+        {
+            List<ProductOutOfStockViweModel> lstData = new List<ProductOutOfStockViweModel>();
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                if (SortBy == "Name")
+                {
+                    command.CommandText = "Select p.ProductName, pd.Quantity, pu.PurchaseDate From Product p join PurchaseDetail pd on p.Id = pd.ProductId join Purchase pu on pd.PurchaseId = pu.Id Where pd.Quantity <10 Order By ProductName";
+                }
+                else if (SortBy == "Quantity")
+                {
+                    command.CommandText = "Select p.ProductName, pd.Quantity, pu.PurchaseDate From Product p join PurchaseDetail pd on p.Id = pd.ProductId join Purchase pu on pd.PurchaseId = pu.Id Where pd.Quantity <10 Order By Quantity Desc";
+                }
+                else
+                {
+                    command.CommandText = "Select p.ProductName, pd.Quantity, pu.PurchaseDate From Product p join PurchaseDetail pd on p.Id = pd.ProductId join Purchase pu on pd.PurchaseId = pu.Id Where pd.Quantity <10 Order By PurchaseDate Desc";
+                }
+
+                _context.Database.OpenConnection();
+                using (var result = command.ExecuteReader())
+                {
+
+                    ProductOutOfStockViweModel data;
+
+                    while (result.Read())
+                    {
+                        data = new ProductOutOfStockViweModel();
+                        data.ProductName = result.GetString(0);
+                        data.Quantity = result.GetInt32(1);
+                        data.PurchaseDate = result.GetDateTime(2);
+                        lstData.Add(data);
+                    }
+                }
+            }
+            return View(lstData);
+
         }
 
     }

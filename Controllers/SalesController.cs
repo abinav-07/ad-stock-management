@@ -50,7 +50,11 @@ namespace GroupCourseWork.Controllers
         {
             ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerName");
             ViewBag.ProductDetails = GetProductList();
-            int lastBillId= _context.Sales.Max(item => item.BillNo);
+            int lastBillId = 1;
+            if (!_context.Sales.Count().Equals(0))
+            {
+                lastBillId = _context.Sales.Max(item => item.BillNo);
+            }
             ViewBag.LatestBillId = lastBillId+1;
             return View();
         }
@@ -79,8 +83,16 @@ namespace GroupCourseWork.Controllers
         public async Task<IActionResult> Create([Bind("Id,CustomerId,SalesDate,BillNo")] Sales sales,List<SalesDetail> SalesDetailList)
         {
             if (ModelState.IsValid)
-            {                
-                sales.BillNo= _context.Sales.Max(item => item.BillNo)+1;
+            {
+                int lastBillId = 1;
+                if (!_context.Sales.Count().Equals(0))
+                {
+                    sales.BillNo = _context.Sales.Max(item => item.BillNo) + 1;
+                }
+                else
+                {
+                    sales.BillNo = lastBillId;
+                }
                 _context.Add(sales);
                 await _context.SaveChangesAsync();
 
