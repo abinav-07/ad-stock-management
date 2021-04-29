@@ -75,8 +75,7 @@ namespace GroupCourseWork.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-
-            
+                        
 
                 ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", product.CategoryId);
             return View(product);

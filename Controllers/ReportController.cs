@@ -1,6 +1,7 @@
 ﻿using GroupCourseWork.Data;
 using GroupCourseWork.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -110,6 +111,59 @@ namespace GroupCourseWork.Controllers
                 return View(lstData);
             }
         }
+        public IActionResult CustomerProductDetailsReport([FromQuery] string SelectedCustomer = "")
+        {
+            List<CustomerProductsViewModel> lstData = new List<CustomerProductsViewModel>();
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                if (SelectedCustomer == "")
+                {
+                    command.CommandText = "SELECT c.Id,c.CustomerName,p.ProductName,s.Id,s.SalesDate,sd.SalesId,sd.ProductId,sd.Quantity,sd.Price FROM Customer c " +
+                        "JOIN Sales s on c.Id=s.CustomerId " +                        
+                        "JOIN SalesDetail sd on sd.SalesId=s.Id "+
+                        "JOIN Product p on p.Id=sd.ProductId " ;
+                }
+                else
+                {
+                    command.CommandText = "SELECT c.Id,c.CustomerName,p.ProductName,s.Id,s.SalesDate,sd.SalesId,sd.ProductId,sd.Quantity,sd.Price FROM Customer c " +
+                        "JOIN Sales s on c.Id=s.CustomerId " +
+                        "JOIN SalesDetail sd on sd.SalesId=s.Id " +
+                        "JOIN Product p on p.Id=sd.ProductId"+
+                        " WHERE c.Id=" + SelectedCustomer;
+                }
+
+                _context.Database.OpenConnection();
+                using (var result = command.ExecuteReader())
+                {
+
+                    CustomerProductsViewModel data;
+
+                    while (result.Read())
+                    {
+                        data = new CustomerProductsViewModel();                        
+                        data.ProductName = result.GetString(2);
+                        data.SalesDate = result.GetDateTime(4);
+                        data.Quantity = result.GetInt32(7);
+                        data.Price = result.GetInt32(8);
+                        lstData.Add(data);
+                    }
+                }
+            }
+            ViewBag.CustomerList = GetCustomerList();
+            return View(lstData);
+
+        }
+
+        //Get Customer Details
+        public IEnumerable<SelectListItem> GetCustomerList()
+        {
+            return _context.Customer.Select(s => new SelectListItem
+            {
+                Value = s.Id.ToString(),
+                Text = s.CustomerName
+            }).ToList();
+        }
+
     }
 }
 

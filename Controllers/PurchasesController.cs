@@ -45,9 +45,9 @@ namespace GroupCourseWork.Controllers
             List<PurchaseDetail> lstData = new List<PurchaseDetail>();
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {
-                
-                    command.CommandText = "Select PurchaseId, ProductId,Quantity,Price FROM PurchaseDetail WHERE PurchaseId=" + id;
-                
+
+                command.CommandText = "Select PurchaseId, ProductId,Quantity,Price FROM PurchaseDetail WHERE PurchaseId=" + id;
+
                 _context.Database.OpenConnection();
                 using (var result = command.ExecuteReader())
                 {
@@ -57,9 +57,9 @@ namespace GroupCourseWork.Controllers
                     while (result.Read())
                     {
                         data = new PurchaseDetail();
-                        data.ProductId = result.GetInt32(0);                        
+                        data.ProductId = result.GetInt32(0);
                         data.Quantity = result.GetInt32(2);
-                        data.Price= result.GetInt32(2);
+                        data.Price = result.GetInt32(2);
                         lstData.Add(data);
                     }
                 }
