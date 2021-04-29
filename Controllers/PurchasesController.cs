@@ -67,20 +67,34 @@ namespace GroupCourseWork.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm]Purchase purchase)
-        {
-            /*
+        public async Task<IActionResult> Create([Bind("Id,PurchaseDate,VendorName,BillNo,VendorAddress")]Purchase purchase,  List<PurchaseDetail> PurchaseDetailList)
+        {           
+            
             if (ModelState.IsValid)
             {
                 _context.Add(purchase);
                 await _context.SaveChangesAsync();
+                foreach(PurchaseDetail element in PurchaseDetailList)
+                {
+                    
+                    element.PurchaseId = purchase.Id;
+                    
+                    element.ProductId = element.ProductId;
+                    element.Price = element.Quantity * element.Price;
+
+                    _context.Add(element);
+                    await _context.SaveChangesAsync();
+                    using (var command = _context.Database.GetDbConnection().CreateCommand())
+                    {
+                        command.CommandText = "UPDATE ProductStock SET Quantity=Quantity+"+element.Quantity+"WHERE ProductId="+element.ProductId;
+                        _context.Database.OpenConnection();
+                        command.ExecuteNonQuery();
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            */
-            System.Diagnostics.Debug.WriteLine(purchase.PurchaseDate);
             
-            System.Diagnostics.Debug.WriteLine(json);
-            return View("Index");
+            return View();
         }
 
         // GET: Purchases/Edit/5

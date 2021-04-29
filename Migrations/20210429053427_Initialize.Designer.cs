@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace GroupCourseWork.Data.Migrations
+namespace GroupCourseWork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210428064616_Database")]
-    partial class Database
+    [Migration("20210429053427_Initialize")]
+    partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -85,14 +85,9 @@ namespace GroupCourseWork.Data.Migrations
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Product");
                 });
@@ -147,12 +142,6 @@ namespace GroupCourseWork.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ManufactureDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
@@ -496,12 +485,6 @@ namespace GroupCourseWork.Data.Migrations
                     b.HasOne("GroupCourseWork.Models.Category", "Cat")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GroupCourseWork.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

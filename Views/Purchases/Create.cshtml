@@ -1,4 +1,4 @@
-﻿@model GroupCourseWork.Models.Purchase
+﻿@model GroupCourseWork.ViewModels.PurchaseViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -8,36 +8,56 @@
 <h1>Create</h1>
 
 <h4>Purchase</h4>
-<hr />
+<hr />  
 <div class="row">
     <div class="col-md-8">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="PurchaseDate" class="control-label"></label>
-                <input name="PurchaseDate" asp-for="PurchaseDate" class="form-control" required />
-                <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+                <label asp-for="Purchase.PurchaseDate" class="control-label"></label>
+                <input name="PurchaseDate" asp-for="Purchase.PurchaseDate" class="form-control" required />
+                <span asp-validation-for="Purchase.PurchaseDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VendorName" class="control-label"></label>
-                <input name="VendorName" asp-for="VendorName" class="form-control" />
-                <span asp-validation-for="VendorName" class="text-danger"></span>
+                <label asp-for="Purchase.VendorName" class="control-label"></label>
+                <input name="VendorName" asp-for="Purchase.VendorName" class="form-control" />
+                <span asp-validation-for="Purchase.VendorName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BillNo" class="control-label"></label>
-                <input name="BillNo" asp-for="BillNo" class="form-control" />
-                <span asp-validation-for="BillNo" class="text-danger"></span>
+                <label asp-for="Purchase.BillNo" class="control-label"></label>
+                <input name="BillNo" asp-for="Purchase.BillNo" class="form-control" />
+                <span asp-validation-for="Purchase.BillNo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VendorAddress" class="control-label"></label>
-                <input name="VendorAddress" asp-for="VendorAddress" class="form-control" />
-                <span asp-validation-for="VendorAddress" class="text-danger"></span>
+                <label asp-for="Purchase.VendorAddress" class="control-label"></label>
+                <input name="VendorAddress" asp-for="Purchase.VendorAddress" class="form-control" />
+                <span asp-validation-for="Purchase.VendorAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input id="add-item-btn" type="button" value="Add Item" class="btn btn-primary" />
             </div>
             <div class="form-group">
-                <div id="productsDiv" class="row"></div>
+                <div id="productsDiv" class="row">
+                    <div class="form-group col-md-4">
+                        <label for="SelectedProducts">Product</label>
+                        <select name="PurchaseDetailList[0].ProductId" class="form-control form-select form-select-lg" id="Select1">
+                            @{
+                                foreach (var item in ViewBag.ProductDetails)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="product-quantity">Quantity</label>
+                        <input class="form-control" name="PurchaseDetailList[0].Quantity" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="product-price">Price</label>
+                        <input class="form-control" name="PurchaseDetailList[0].Price" />
+                    </div>
+                </div>
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -49,16 +69,17 @@
     <a asp-action="Index">Back to List</a>
 </div>
 <script>
+    var count = 1;
     $("#add-item-btn").on("click", () => {
- 
-        createProductDiv();
+            
+        createProductDiv(count);
     });
 
-    var createProductDiv = () => {
+    var createProductDiv = (count) => {
             
         const ProductDiv = `<div class="form-group col-md-4">
                                 <label for="SelectedProducts">Product</label>
-                                <select name="SelectedProducts" class="form-control form-select form-select-lg" id="Select1" >
+                                <select name="PurchaseDetailList[${count}].ProductId" class="form-control form-select form-select-lg" id="Select1" >
                                 @{
                                     foreach(var item in ViewBag.ProductDetails)
                                     {
@@ -69,11 +90,11 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="product-quantity">Quantity</label>
-                                    <input class="form-control" name="ProductQuantity"/>
+                                    <input class="form-control" name="PurchaseDetailList[${count}].Quantity"/>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="product-price">Price</label>
-                                    <input class="form-control" name="ProductPrice"/>
+                                    <input class="form-control" name="PurchaseDetailList[${count}].Price"/>
                                 </div>
                                `;
             $("#productsDiv").append(ProductDiv);

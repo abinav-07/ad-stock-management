@@ -242,6 +242,27 @@ namespace GroupCourseWork.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryId = table.Column<int>(nullable: false),
+                    ProductName = table.Column<string>(nullable: false),
+                    Remarks = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Product_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sales",
                 columns: table => new
                 {
@@ -258,34 +279,6 @@ namespace GroupCourseWork.Migrations
                         name: "FK_Sales_Customer_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Product",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    ProductName = table.Column<string>(nullable: false),
-                    Remarks = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Product_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Product_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -417,11 +410,6 @@ namespace GroupCourseWork.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_UserId",
-                table: "Product",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PurchaseDetail_ProductId",
                 table: "PurchaseDetail",
                 column: "ProductId");
@@ -505,10 +493,10 @@ namespace GroupCourseWork.Migrations
                 name: "Role");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "User");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "Customer");
