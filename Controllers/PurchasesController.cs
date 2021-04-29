@@ -41,6 +41,31 @@ namespace GroupCourseWork.Controllers
             {
                 return NotFound();
             }
+            //Adding Product Details
+            List<PurchaseDetail> lstData = new List<PurchaseDetail>();
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                
+                    command.CommandText = "Select PurchaseId, ProductId,Quantity,Price FROM PurchaseDetail WHERE PurchaseId=" + id;
+                
+                _context.Database.OpenConnection();
+                using (var result = command.ExecuteReader())
+                {
+
+                    PurchaseDetail data;
+
+                    while (result.Read())
+                    {
+                        data = new PurchaseDetail();
+                        data.ProductId = result.GetInt32(0);                        
+                        data.Quantity = result.GetInt32(2);
+                        data.Price= result.GetInt32(2);
+                        lstData.Add(data);
+                    }
+                }
+            }
+
+            ViewBag.ProductList = lstData;
 
             return View(purchase);
         }
@@ -49,6 +74,8 @@ namespace GroupCourseWork.Controllers
         public IActionResult Create()
         {
             ViewBag.ProductDetails = GetProductList();
+            int lastBillId = _context.Purchase.Max(item => item.BillNo);
+            ViewBag.LatestBillId = lastBillId + 1;
             return View();
 
         }
@@ -72,6 +99,8 @@ namespace GroupCourseWork.Controllers
             
             if (ModelState.IsValid)
             {
+                int lastBillId = _context.Purchase.Max(item => item.BillNo);
+                purchase.BillNo = lastBillId + 1;
                 _context.Add(purchase);
                 await _context.SaveChangesAsync();
                 foreach(PurchaseDetail element in PurchaseDetailList)
