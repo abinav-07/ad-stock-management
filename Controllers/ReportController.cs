@@ -110,32 +110,34 @@ namespace GroupCourseWork.Controllers
                 return View(lstData);
             }
         }
-        public IActionResult ProductOutOfList([FromQuery] string SelectedProduct = "")
+        public IActionResult ProductOutOfList([FromQuery] string SortBy = "")
         {
-            List<ProductStockViewModel> lstData = new List<ProductStockViewModel>();
+            List<ProductOutOfStockViweModel> lstData = new List<ProductOutOfStockViweModel>();
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {
-                if (SelectedProduct == "")
+                if (SortBy == "Name")
                 {
-                    command.CommandText = "SELECT p.Id as ProductId,p.ProductName as ProductName,ps.Quantity from Product p inner join ProductStock ps on p.Id=ps.ProductId";
+                    command.CommandText = "Select p.ProductName, pd.Quantity, pu.PurchaseDate From Product p join PurchaseDetail pd on p.Id = pd.ProductId join Purchase pu on pd.PurchaseId = pu.Id Where pd.Quantity <10 Order By ProductName";
                 }
-                else
+                else if(SortBy == "Quantity")
                 {
-                    command.CommandText = "SELECT p.Id as ProductId,p.ProductName as ProductName,ps.Quantity from Product p inner join ProductStock ps on p.Id=ps.ProductId WHERE p.Id=" + SelectedProduct;
+                    command.CommandText = "Select p.ProductName, pd.Quantity, pu.PurchaseDate From Product p join PurchaseDetail pd on p.Id = pd.ProductId join Purchase pu on pd.PurchaseId = pu.Id Where pd.Quantity <10 Order By Quantity Desc";
+                } else {
+                    command.CommandText = "Select p.ProductName, pd.Quantity, pu.PurchaseDate From Product p join PurchaseDetail pd on p.Id = pd.ProductId join Purchase pu on pd.PurchaseId = pu.Id Where pd.Quantity <10 Order By PurchaseDate Desc";
                 }
 
                 _context.Database.OpenConnection();
                 using (var result = command.ExecuteReader())
                 {
 
-                    ProductStockViewModel data;
+                    ProductOutOfStockViweModel data;
 
                     while (result.Read())
                     {
-                        data = new ProductStockViewModel();
-                        data.ProductId = result.GetInt32(0);
-                        data.ProductName = result.GetString(1);
-                        data.Quantity = result.GetInt32(2);
+                        data = new ProductOutOfStockViweModel();
+                        data.ProductName = result.GetString(0);
+                        data.Quantity = result.GetInt32(1);
+                        data.PurchaseDate= result.GetDateTime(2);
                         lstData.Add(data);
                     }
                 }
