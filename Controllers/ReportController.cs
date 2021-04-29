@@ -88,7 +88,7 @@ namespace GroupCourseWork.Controllers
             List<InactiveProductViewModel> lstData = new List<InactiveProductViewModel>();
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "SELECT FORMAT(SalesDate, 'MM-dd') AS Date,ProductName ,Quantity from Product p join SalesDetail sd on p.id = sd.ProductId join Sales s on sd.SalesId = s.Id  where DATEDIFF(day,SalesDate,GETDATE()) > 31 Order by day(SalesDate);";
+                command.CommandText = "SELECT FORMAT(s.SalesDate, 'MM-dd') AS Date,p.ProductName from Product p join SalesDetail sd on p.id = sd.ProductId join Sales s on sd.SalesId = s.Id  where DATEDIFF(day,GETDATE(),SalesDate) > 31 Order by day(SalesDate)";
 
 
                 _context.Database.OpenConnection();
@@ -109,6 +109,39 @@ namespace GroupCourseWork.Controllers
 
                 return View(lstData);
             }
+        }
+        public IActionResult ProductOutOfList([FromQuery] string SelectedProduct = "")
+        {
+            List<ProductStockViewModel> lstData = new List<ProductStockViewModel>();
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                if (SelectedProduct == "")
+                {
+                    command.CommandText = "SELECT p.Id as ProductId,p.ProductName as ProductName,ps.Quantity from Product p inner join ProductStock ps on p.Id=ps.ProductId";
+                }
+                else
+                {
+                    command.CommandText = "SELECT p.Id as ProductId,p.ProductName as ProductName,ps.Quantity from Product p inner join ProductStock ps on p.Id=ps.ProductId WHERE p.Id=" + SelectedProduct;
+                }
+
+                _context.Database.OpenConnection();
+                using (var result = command.ExecuteReader())
+                {
+
+                    ProductStockViewModel data;
+
+                    while (result.Read())
+                    {
+                        data = new ProductStockViewModel();
+                        data.ProductId = result.GetInt32(0);
+                        data.ProductName = result.GetString(1);
+                        data.Quantity = result.GetInt32(2);
+                        lstData.Add(data);
+                    }
+                }
+            }
+            return View(lstData);
+
         }
     }
 }
