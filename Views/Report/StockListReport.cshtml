@@ -25,8 +25,8 @@
     </div>
     
 </form>
-<table class="table">
-    <thead>
+<table class="table ">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ProductName)
@@ -47,7 +47,7 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                <a href="/Products/Details/@item.ProductId">View Detail</a>
+                <a href="/Products/Details/@item.ProductId" class="btn btn-info">View Detail</a>
             </td>
         </tr>
         }
