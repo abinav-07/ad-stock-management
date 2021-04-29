@@ -1,8 +1,46 @@
-﻿@{
+﻿@model IEnumerable<GroupCourseWork.ViewModels.ProductOutOfStockViweModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div class="col-md-12 d-flex justify-content-center flex-column" style="background: #f0656c; align-items:center">
+    <div class="mt-2">
+        <h6>These products are out of stock!</h6>
+    </div>
+    <div class="mt-2">
+        <table class="table table-bordered" style="width: 50%; background:#fff">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.ProductList)
+                {
+                    <tr>
+                        <td>
+                            @item.ProductName
+                        </td>
+
+                        <td>
+                            @item.Quantity
+                        </td>
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+    
 </div>

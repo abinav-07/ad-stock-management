@@ -39,8 +39,8 @@
             </td>
             <td>
 
-                <form asp-action="Delete">
-                    <input type="hidden" asp-for="@item.ProductId" />
+                <form action="/Products/Delete" method="get">
+                    <input type="hidden" name="id" value="@item.ProductId" />                    
                     <input type="submit" value="Delete" class="btn btn-danger" />
                 </form>
             </td>
