@@ -201,6 +201,34 @@ namespace GroupCourseWork.Controllers
 
         }
 
+        public IActionResult ProductWithoutPurchaseReport()
+        {
+            List<ProductWithoutPurchaseViewModel> lstData = new List<ProductWithoutPurchaseViewModel>();
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "SELECT p.Id,p.ProductName,c.Name,p.Remarks FROM Product p Left JOIN Category c ON c.Id = p.CategoryId Left JOIN PurchaseDetail pd ON pd.ProductId = p.Id WHERE pd.ProductId IS NULL";
+
+
+                _context.Database.OpenConnection();
+                using (var result = command.ExecuteReader())
+                {
+
+                    ProductWithoutPurchaseViewModel data;
+
+                    while (result.Read())
+                    {
+                        data = new ProductWithoutPurchaseViewModel();
+                        data.ProductId = result.GetInt32(0);
+                        data.ProductName = result.GetString(1);
+                        data.Category = result.GetString(2);
+                        data.Remark = result.GetString(3);
+                        lstData.Add(data);
+                    }
+                }
+
+                return View(lstData);
+            }
+        }
     }
 }
 
