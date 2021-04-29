@@ -55,7 +55,41 @@ namespace GroupCourseWork.Controllers
             return View(lstData);
 
         }
+        public IActionResult CustomerProductDetailsReport([FromQuery] string SelectedProduct = "")
+        {    
+
+            List<CustomerProductsViewModel> lstData = new List<CustomerProductsViewModel>();
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                if (SelectedProduct == "")
+                {
+                    command.CommandText = "SELECT p.Id as ProductId,p.ProductName as ProductName,ps.Quantity from Product p inner join ProductStock ps on p.Id=ps.ProductId";
+                }
+                else
+                {
+                    command.CommandText = "SELECT p.Id as ProductId,p.ProductName as ProductName,ps.Quantity from Product p inner join ProductStock ps on p.Id=ps.ProductId WHERE p.Id=" + SelectedProduct;
+                }
+
+                _context.Database.OpenConnection();
+                using (var result = command.ExecuteReader())
+                {
+
+                    CustomerProductsViewModel data;
+
+                    while (result.Read())
+                    {
+                        data = new CustomerProductsViewModel();
+                        data.ProductId = result.GetInt32(0);
+                        data.ProductName = result.GetString(1);
+                        data.Quantity = result.GetInt32(2);
+                        lstData.Add(data);
+                    }
+                }
+            }
+            return View(lstData);
+
+        }
     }
-   }
+}
 
 

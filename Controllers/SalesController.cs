@@ -49,7 +49,26 @@ namespace GroupCourseWork.Controllers
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerName");
+            ViewBag.ProductDetails = GetProductList();
+            int lastBillId= _context.Sales.Max(item => item.BillNo);
+            ViewBag.LatestBillId = lastBillId+1;
             return View();
+        }
+
+        [HttpGet]
+        public Product GetProductDetails(int data)
+        {
+            //Adding Product Details            
+            return _context.Product.Find(data);
+        }
+
+        public IEnumerable<SelectListItem> GetProductList()
+        {
+            return _context.Product.Select(s => new SelectListItem
+            {
+                Value = s.Id.ToString(),
+                Text = s.ProductName
+            }).ToList();
         }
 
         // POST: Sales/Create
@@ -57,12 +76,33 @@ namespace GroupCourseWork.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CustomerId,SalesDate,BillNo")] Sales sales)
+        public async Task<IActionResult> Create([Bind("Id,CustomerId,SalesDate,BillNo")] Sales sales,List<SalesDetail> SalesDetailList)
         {
             if (ModelState.IsValid)
-            {
+            {                
+                sales.BillNo= _context.Sales.Max(item => item.BillNo)+1;
                 _context.Add(sales);
                 await _context.SaveChangesAsync();
+
+                foreach (SalesDetail element in SalesDetailList)
+                {
+
+                    element.SalesId = sales.Id;
+
+
+                    element.ProductId = element.ProductId;
+                    element.Price = element.Quantity * element.Price;
+
+                    _context.Add(element);
+                    await _context.SaveChangesAsync();
+                    using (var command = _context.Database.GetDbConnection().CreateCommand())
+                    {
+                        command.CommandText = "UPDATE ProductStock SET Quantity=Quantity-" + element.Quantity + "WHERE ProductId=" + element.ProductId;
+                        _context.Database.OpenConnection();
+                        command.ExecuteNonQuery();
+                    }
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "CustomerName", sales.CustomerId);

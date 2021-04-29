@@ -1,8 +1,15 @@
-﻿@model GroupCourseWork.Models.Sales
+﻿@model GroupCourseWork.ViewModels.SalesViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<style>
+    #display-product-name, #display-product-remarks{
+        font-size:1.1rem;
+        
+    }
+</style>
 <h1>Create</h1>
 
 <h4>Sales</h4>
@@ -12,37 +19,121 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                <label asp-for="Sales.CustomerId" class="control-label"></label>
+                <select asp-for="Sales.CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="SalesDate" class="control-label"></label>
-                <input asp-for="SalesDate" class="form-control" />
-                <span asp-validation-for="SalesDate" class="text-danger"></span>
+                <label asp-for="Sales.SalesDate" class="control-label"></label>
+                <input asp-for="Sales.SalesDate" class="form-control" />
+                <span asp-validation-for="Sales.SalesDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BillNo" class="control-label"></label>
-                <input asp-for="BillNo" class="form-control" />
-                <span asp-validation-for="BillNo" class="text-danger"></span>
+                <label asp-for="Sales.BillNo" class="control-label"></label>
+                <input asp-for="Sales.BillNo" class="form-control" value="@ViewBag.LatestBillId" disabled />
+                <span asp-validation-for="Sales.BillNo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input id="add-item-btn" type="button" value="Add Item" class="btn btn-primary" />
             </div>
             <div class="form-group">
+                <div id="salesDiv" class="row">
+                    <div class="form-group col-md-4">
+                        <label for="SelectedProducts">Product</label>
+                        <select name="SalesDetailList[0].ProductId" class="ProductSelectTag form-control form-select form-select-lg" id="Select1">
+                            @{
+                                foreach (var item in ViewBag.ProductDetails)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="product-quantity">Quantity</label>
+                        <input class="form-control" name="SalesDetailList[0].Quantity" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="product-price">Price</label>
+                        <input class="form-control" name="SalesDetailList[0].Price" />
+                    </div>
+                </div>
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
+    <div class="col-md-6 offset-2">
+        <div>
+            <h3>Select a product to view:</h3>
+        </div>
+        <div class="mt-1">
+            <h5 class="d-inline">Product Name:</h5> <span class="d-inline" id="display-product-name"></span>
+        </div>
+        <div class="mt-2">
+            <h5 class="d-inline">Remarks:</h5> <span id="display-product-remarks"></span>
+        </div>
+    </div>
+    </div>
 
 
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    <script>
+    var count = 1;
+    $("#add-item-btn").on("click", () => {
+        createProductDiv(count);
+    });
+
+    var createProductDiv = (count) => {
+
+        const ProductDiv = `<div class="form-group col-md-4">
+                                <label for="SelectedProducts">Product</label>
+                                <select name="SalesDetailList[${count}].ProductId" class="ProductSelectTag form-control form-select form-select-lg" id="Select1" >
+                                @{
+                                    foreach(var item in ViewBag.ProductDetails)
+                                    {
+                                    <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                                </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="product-quantity">Quantity</label>
+                                    <input class="form-control" name="SalesDetailList[${count}].Quantity"/>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="product-price">Price</label>
+                                    <input class="form-control" name="SalesDetailList[${count}].Price"/>
+                                </div>
+                               `;
+        $("#salesDiv").append(ProductDiv);
+
+    };
+
+    $(".ProductSelectTag").on("click", () => {
+        console.log($(".ProductSelectTag").val());
+        var SelectedProduct = $(".ProductSelectTag").val();
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetProductDetails")',
+            data: { data: SelectedProduct },
+            success: function (ProductValues) {
+                console.log(ProductValues);
+                $("#display-product-name").text(ProductValues.productName)
+                $("#display-product-remarks").text(ProductValues.remarks)
+            },
+            error: function (err) {console.log(err)}
+            })
+
+    });
+
+    </script>
 
 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

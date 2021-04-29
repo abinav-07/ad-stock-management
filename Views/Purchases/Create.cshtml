@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Purchase.BillNo" class="control-label"></label>
-                <input name="BillNo" asp-for="Purchase.BillNo" class="form-control" />
+                <input name="BillNo" asp-for="Purchase.BillNo" class="form-control" value="@ViewBag.LatestBillId" disabled />
                 <span asp-validation-for="Purchase.BillNo" class="text-danger"></span>
             </div>
             <div class="form-group">
