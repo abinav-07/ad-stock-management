@@ -1,13 +1,21 @@
 ﻿@model IEnumerable<GroupCourseWork.Models.Sales>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sales";
 }
+<style>
+    .action-head {
+        text-align: center;
+    }
 
-<h1>Index</h1>
+    a {
+        color: white;
+    }
+</style>
+<h1>Sales</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button type="button" class="btn btn-primary"><a asp-action="Create">Create New</a></button>
 </p>
 <table class="table">
     <thead>
@@ -34,7 +42,7 @@
                 @Html.DisplayFor(modelItem => item.BillNo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Cus.CustomerAddress)
+                @Html.DisplayFor(modelItem => item.Cus.CustomerName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
