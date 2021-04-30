@@ -62,7 +62,7 @@ namespace GroupCourseWork.Controllers
             List<InactiveCustomerViewModel> lstData = new List<InactiveCustomerViewModel>();
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "SELECT FORMAT(SalesDate, 'MM-dd') AS Date,CustomerName from Customer c join sales s on c.id = s.CustomerId where DATEDIFF(day,SalesDate,GETDATE()) > 31 Order by day(SalesDate);";
+                command.CommandText = "SELECT SalesDate AS Date,CustomerName from Customer c join sales s on c.id = s.CustomerId where DATEDIFF(day,SalesDate,GETDATE()) > 31 Order by day(SalesDate)";
 
 
                 _context.Database.OpenConnection();
@@ -74,7 +74,7 @@ namespace GroupCourseWork.Controllers
                     while (result.Read())
                     {
                         data = new InactiveCustomerViewModel();
-                        data.LastBoughtDate = result.GetDateTime(0);
+                        data.LastBoughtDate = (result.GetDateTime(0)).Date;
                         data.CustomerName = result.GetString(1);
                         lstData.Add(data);
                     }

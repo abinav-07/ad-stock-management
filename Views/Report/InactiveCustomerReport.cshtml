@@ -14,7 +14,7 @@
                 @Html.DisplayNameFor(model => model.CustomerName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastBoughtDate)
+                @Html.DisplayNameFor(model => model.LastBoughtDate.Date)
             </th>
         </tr>
     </thead>
@@ -26,7 +26,7 @@
                     @Html.DisplayFor(modelItem => item.CustomerName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastBoughtDate)
+                    @Html.DisplayFor(modelItem => item.LastBoughtDate.Date)
                 </td>
             </tr>
         }
