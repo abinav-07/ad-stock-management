@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GroupCourseWork.Data;
 using GroupCourseWork.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GroupCourseWork.Controllers
 {
@@ -19,7 +20,8 @@ namespace GroupCourseWork.Controllers
             _context = context;
         }
 
-        // GET: Sales
+        // GET: Sales 
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Sales.Include(s => s.Cus);

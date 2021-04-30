@@ -1,6 +1,7 @@
 ﻿using GroupCourseWork.Data;
 using GroupCourseWork.Models;
 using GroupCourseWork.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -23,9 +24,9 @@ namespace GroupCourseWork.Controllers
             _context = context;
         }
 
-        
 
 
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Index()
         {
 
@@ -55,7 +56,7 @@ namespace GroupCourseWork.Controllers
             ViewBag.ProductList = lstData;
             return View();
         }
-
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Privacy()
         {
             return View();

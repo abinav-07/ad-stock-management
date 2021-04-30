@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GroupCourseWork.Data;
 using GroupCourseWork.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GroupCourseWork.Controllers
 {
@@ -20,6 +21,7 @@ namespace GroupCourseWork.Controllers
         }
 
         // GET: Categories
+        [Authorize(Roles ="Admin,User")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Category.ToListAsync());

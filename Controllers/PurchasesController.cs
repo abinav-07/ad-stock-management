@@ -9,6 +9,7 @@ using GroupCourseWork.Data;
 using GroupCourseWork.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GroupCourseWork.Controllers
 {
@@ -22,6 +23,7 @@ namespace GroupCourseWork.Controllers
         }
 
         // GET: Purchases
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Purchase.ToListAsync());

@@ -1,26 +1,21 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using GroupCourseWork.Data;
-using GroupCourseWork.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
 
 namespace GroupCourseWork.Controllers
 {
-    public class RolesController : Controller
+    public class RoleController : Controller
     {
         RoleManager<IdentityRole> roleManager;
 
-        public RolesController(RoleManager<IdentityRole> roleManager)
+        public RoleController(RoleManager<IdentityRole> roleManager)
         {
             this.roleManager = roleManager;
         }
-
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {

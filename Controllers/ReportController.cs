@@ -1,5 +1,6 @@
 ﻿using GroupCourseWork.Data;
 using GroupCourseWork.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,11 +19,12 @@ namespace GroupCourseWork.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Index()
         {
             return View();
         }
+        [Authorize(Roles = "Admin,User")]
         public IActionResult StockListReport([FromQuery] string SelectedProduct="")
         {
             List<ProductStockViewModel> lstData = new List<ProductStockViewModel>();
@@ -56,7 +58,7 @@ namespace GroupCourseWork.Controllers
             return View(lstData);
 
         }
-
+        [Authorize(Roles = "Admin,User")]
         public IActionResult InactiveCustomerReport()
         {
             List<InactiveCustomerViewModel> lstData = new List<InactiveCustomerViewModel>();
@@ -83,7 +85,7 @@ namespace GroupCourseWork.Controllers
                 return View(lstData);
             }
         }
-
+        [Authorize(Roles = "Admin,User")]
         public IActionResult InactiveProductReport()
         {
             List<InactiveProductViewModel> lstData = new List<InactiveProductViewModel>();
@@ -111,6 +113,7 @@ namespace GroupCourseWork.Controllers
                 return View(lstData);
             }
         }
+        [Authorize(Roles = "Admin,User")]
         public IActionResult CustomerProductDetailsReport([FromQuery] string SelectedCustomer = "")
         {
             List<CustomerProductsViewModel> lstData = new List<CustomerProductsViewModel>();
@@ -155,6 +158,7 @@ namespace GroupCourseWork.Controllers
         }
 
         //Get Customer Details
+        [Authorize(Roles = "Admin,User")]
         public IEnumerable<SelectListItem> GetCustomerList()
         {
             return _context.Customer.Select(s => new SelectListItem
@@ -201,6 +205,7 @@ namespace GroupCourseWork.Controllers
 
         }
 
+        [Authorize(Roles = "Admin,User")]
         public IActionResult ProductWithoutPurchaseReport()
         {
             List<ProductWithoutPurchaseViewModel> lstData = new List<ProductWithoutPurchaseViewModel>();
