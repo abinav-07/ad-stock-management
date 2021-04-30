@@ -89,7 +89,7 @@ namespace GroupCourseWork.Controllers
             List<InactiveProductViewModel> lstData = new List<InactiveProductViewModel>();
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "SELECT FORMAT(s.SalesDate, 'MM-dd') AS Date,p.ProductName from Product p join SalesDetail sd on p.id = sd.ProductId join Sales s on sd.SalesId = s.Id  where DATEDIFF(day,GETDATE(),SalesDate) > 31 Order by day(SalesDate)";
+                command.CommandText = "SELECT s.SalesDate AS Date,p.ProductName from Product p join SalesDetail sd on p.id = sd.ProductId join Sales s on sd.SalesId = s.Id  where DATEDIFF(day,GETDATE(),SalesDate) < 31 Order by day(SalesDate)";
 
 
                 _context.Database.OpenConnection();
@@ -103,7 +103,6 @@ namespace GroupCourseWork.Controllers
                         data = new InactiveProductViewModel();
                         data.LastBoughtDate = result.GetDateTime(0);
                         data.ProductName = result.GetString(1);
-                        data.Quantity = result.GetInt32(2);
                         lstData.Add(data);
                     }
                 }
