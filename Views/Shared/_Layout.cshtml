@@ -38,7 +38,31 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Sales</a>
                         </li>
-
+                        <li class="dropdown" style="margin-top:8px;margin-left:5px;">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:black;"><span class="caret">Report</span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="CustomerProductDetailsReport">Customer Products</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="InactiveCustomerReport">Inactive Customers</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="InactiveProductReport">Inactive Products</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="ProductOutOfList">Products Out of Stock</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="ProductWithoutPurchaseReport">Products Without Purchases</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="StockListReport">Stock</a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        
                     </ul>
                 </div>
             </div>
