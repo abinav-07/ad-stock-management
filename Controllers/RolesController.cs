@@ -20,7 +20,7 @@ namespace GroupCourseWork.Controllers
         {
             this.roleManager = roleManager;
         }
-
+        //Add Roles From Here
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {

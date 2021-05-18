@@ -82,12 +82,9 @@ namespace GroupCourseWork.Areas.Identity.Pages.Account
                 {
                     //Registering Admin                    
                    // _userManager.AddToRoleAsync(user, "Admin").Wait();
+                   //Registering User
                     _userManager.AddToRoleAsync(user, "User").Wait();
                     _logger.LogInformation("User created a new account with password.");
-
-                    
-
-                    
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
